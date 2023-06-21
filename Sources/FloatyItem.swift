@@ -129,6 +129,22 @@ open class FloatyItem: UIView {
   }
   
   /**
+   Item's title label.
+   */
+  var _subTitleLabel: UILabel? = nil
+  @objc open var subTitleLabel: UILabel {
+    get {
+      if _subTitleLabel == nil {
+          _subTitleLabel = UILabel()
+          _subTitleLabel?.textColor = titleColor
+          _subTitleLabel?.font = FloatyManager.defaultInstance().font
+        addSubview(_subTitleLabel!)
+      }
+      return _subTitleLabel!
+    }
+  }
+  
+  /**
    Title background view
    */
   @objc open var titleView: UIView = UIView()
@@ -171,6 +187,30 @@ open class FloatyItem: UIView {
         titleLabel.transform = CGAffineTransform(scaleX: 1.0, y: 1.0);
       }
       
+    }
+  }
+  
+  /**
+   Item's subTitle.
+   */
+  @objc open var subTitle: String? = nil {
+    didSet {
+        subTitleLabel.text = subTitle
+        subTitleLabel.font = UIFont.systemFont(ofSize: 14)
+        subTitleLabel.sizeToFit()
+      if(titleLabelPosition == .left) {
+          subTitleLabel.frame.origin.x = -subTitleLabel.frame.size.width - 10
+      } else { //titleLabel will be on right
+          subTitleLabel.frame.origin.x = iconImageView.frame.origin.x + iconImageView.frame.size.width + 20
+      }
+      
+        subTitleLabel.frame.origin.y = titleLabel.frame.origin.y + titleLabel.frame.size.height
+      
+      if FloatyManager.defaultInstance().rtlMode {
+          subTitleLabel.transform = CGAffineTransform(scaleX: -1.0, y: 1.0);
+      }else {
+          subTitleLabel.transform = CGAffineTransform(scaleX: 1.0, y: 1.0);
+      }
     }
   }
   
